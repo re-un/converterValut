@@ -17,6 +17,8 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         curPicker.dataSource = self
         firstTextField.delegate = self
         secondTextField.delegate = self
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,27 +35,22 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     @IBAction func changeButton(_ sender: UIButton) {
     }
     @IBOutlet weak var layoutBottom: NSLayoutConstraint!
-    var currentTextField:UITextField?
     @IBOutlet weak var generalView: UIView!
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //self.layoutBottom.constant = 280
-        UIView.animate(withDuration: 0.3, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -255)})
-        currentTextField = textField
+        textField.keyboardType = .decimalPad
+        UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -215)})
         return true
     }
     
+    
+    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if currentTextField == textField{
-            
-        }
-        
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //self.layoutBottom.constant = 20
-        UIView.animate(withDuration: 0.3, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: 0)})
+        UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: 0)})
         textField.resignFirstResponder()
         return true
     }
@@ -76,4 +73,3 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         secondLabel.text = data.allCurrences[row].Cur_Name
     }
 }
-
