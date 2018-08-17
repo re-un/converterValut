@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource{
-
+    var data = dataAlgorithm()
     override func viewDidLoad() {
         super.viewDidLoad()
         curPicker.delegate = self
@@ -17,9 +17,9 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         data.getAllCurrences()
         curPicker.reloadAllComponents()
+        super.viewWillAppear(animated)
     }
     @IBOutlet weak var curPicker: UIPickerView!
     @IBOutlet weak var firstLabel: UILabel!
@@ -27,10 +27,12 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     @IBOutlet weak var firstTextField: UITextField!
     @IBOutlet weak var secondTextField: UITextField!
     @IBAction func changeButton(_ sender: UIButton) {
-        
     }
     
-    var data = dataAlgorithm()
+    
+    
+    
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

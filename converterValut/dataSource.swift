@@ -27,14 +27,19 @@ class dataAlgorithm {
     var allCurrences = [currence]()
     func getAllCurrences(){
         if let url = URL(string: callForAllCurrences){
-            URLSession.shared.dataTask(with: url){
-                (data,response,err) in
-                if let dat = data{
-                    if let currnces = try? JSONDecoder().decode([currence].self, from: dat){
-                        self.allCurrences = currnces
-                    }
+//            URLSession.shared.dataTask(with: url){
+//                (data,response,err) in
+//                if let dat = data{
+//                    if let currnces = try? JSONDecoder().decode([currence].self, from: dat){
+//                        self.allCurrences = currnces
+//                    }
+//                }
+//            }.resume()
+            if let data = try? Data(contentsOf: url){
+                if let currnces = try? JSONDecoder().decode([currence].self, from: data){
+                    self.allCurrences = currnces
                 }
-            }.resume()
+            }
         }
     }
 }
