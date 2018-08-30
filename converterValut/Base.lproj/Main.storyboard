@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14252.5"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,11 +18,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xx9-aF-sVm">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xx9-aF-sVm">
                                 <rect key="frame" x="16" y="325.5" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="editChanched:" destination="BYZ-38-t0r" eventType="editingChanged" id="5CL-ba-Vao"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Белорусский рубль" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9d-4q-tFG">
                                 <rect key="frame" x="82" y="296.5" width="156" height="21"/>
@@ -35,18 +39,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6a-ln-P1M">
-                                <rect key="frame" x="137" y="363.5" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="changeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1GA-2l-cwS"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6r7-OR-xYR">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6r7-OR-xYR">
                                 <rect key="frame" x="16" y="430" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="secondEditChanched:" destination="BYZ-38-t0r" eventType="editingChanged" id="zJ0-6L-etZ"/>
+                                </connections>
                             </textField>
                             <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="DUH-MD-A3e">
                                 <rect key="frame" x="0.0" y="127" width="320" height="161.5"/>
@@ -54,10 +54,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="7Nt-Zn-pPU" firstAttribute="top" secondItem="Xx9-aF-sVm" secondAttribute="bottom" constant="46" id="2Mn-zI-OYY"/>
                             <constraint firstItem="6r7-OR-xYR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="5Sa-aJ-L3l"/>
-                            <constraint firstItem="S6a-ln-P1M" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="7PF-M4-82w"/>
                             <constraint firstItem="DUH-MD-A3e" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="107" id="99e-uB-JFh"/>
-                            <constraint firstItem="S6a-ln-P1M" firstAttribute="top" secondItem="Xx9-aF-sVm" secondAttribute="bottom" constant="8" id="9Eg-Xg-jgz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xx9-aF-sVm" secondAttribute="trailing" constant="16" id="EUq-nn-oiw"/>
                             <constraint firstItem="6r7-OR-xYR" firstAttribute="top" secondItem="7Nt-Zn-pPU" secondAttribute="bottom" constant="8" id="QgL-9y-eUg"/>
                             <constraint firstItem="Xx9-aF-sVm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Qnz-cH-4CB"/>
@@ -69,7 +68,6 @@
                             <constraint firstItem="7Nt-Zn-pPU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="r6b-cP-Rji"/>
                             <constraint firstItem="Xx9-aF-sVm" firstAttribute="top" secondItem="E9d-4q-tFG" secondAttribute="bottom" constant="8" id="rru-kD-n8L"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6r7-OR-xYR" secondAttribute="bottom" constant="20" id="sih-zC-GWv"/>
-                            <constraint firstItem="7Nt-Zn-pPU" firstAttribute="top" secondItem="S6a-ln-P1M" secondAttribute="bottom" constant="8" id="tIf-Fi-vek"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <variation key="default">
@@ -83,14 +81,11 @@
                                 <exclude reference="sih-zC-GWv"/>
                                 <exclude reference="99e-uB-JFh"/>
                                 <exclude reference="TFM-Kb-u5h"/>
-                                <exclude reference="Qnz-cH-4CB"/>
-                                <exclude reference="rru-kD-n8L"/>
                                 <exclude reference="SuR-Nj-owY"/>
                                 <exclude reference="kAX-Cr-GK3"/>
-                                <exclude reference="7PF-M4-82w"/>
-                                <exclude reference="9Eg-Xg-jgz"/>
+                                <exclude reference="Qnz-cH-4CB"/>
+                                <exclude reference="rru-kD-n8L"/>
                                 <exclude reference="r6b-cP-Rji"/>
-                                <exclude reference="tIf-Fi-vek"/>
                                 <exclude reference="5Sa-aJ-L3l"/>
                                 <exclude reference="QgL-9y-eUg"/>
                             </mask>
@@ -106,14 +101,11 @@
                                 <include reference="sih-zC-GWv"/>
                                 <include reference="99e-uB-JFh"/>
                                 <include reference="TFM-Kb-u5h"/>
-                                <include reference="Qnz-cH-4CB"/>
-                                <include reference="rru-kD-n8L"/>
                                 <include reference="SuR-Nj-owY"/>
                                 <include reference="kAX-Cr-GK3"/>
-                                <include reference="7PF-M4-82w"/>
-                                <include reference="9Eg-Xg-jgz"/>
+                                <include reference="Qnz-cH-4CB"/>
+                                <include reference="rru-kD-n8L"/>
                                 <include reference="r6b-cP-Rji"/>
-                                <include reference="tIf-Fi-vek"/>
                                 <include reference="5Sa-aJ-L3l"/>
                                 <include reference="QgL-9y-eUg"/>
                             </mask>
