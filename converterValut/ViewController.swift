@@ -9,7 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate{
-    var data = dataAlgorithm()
     var currences = [dataAlgorithm.currence]()
     var selectedRow = 0
     var isAllCurrencesDisplayed = false
@@ -19,29 +18,32 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         curPicker.dataSource = self
         firstTextField.delegate = self
         secondTextField.delegate = self
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        data.getAllCurrences()
+        super.viewWillAppear(animated)
         currences = data.lessCurrneces
         curPicker.reloadAllComponents()
         secondLabel.text = data.lessCurrneces.first?.Cur_Name
-        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        firstTextField.becomeFirstResponder()
+        UIView.animate(withDuration: 0.2, animations: {self.layoutBottom.constant = 235})
     }
     @IBOutlet weak var curPicker: UIPickerView!
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
     @IBOutlet weak var firstTextField: UITextField!{
         didSet{
-            firstTextField.becomeFirstResponder()
             firstTextField.clearButtonMode = .always
         }
     }
     @IBOutlet weak var secondTextField: UITextField!{
         didSet{
             secondTextField.clearButtonMode = .always
-            
         }
     }
     @IBOutlet weak var layoutBottom: NSLayoutConstraint!
@@ -58,11 +60,9 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         }
         curPicker.reloadAllComponents()
     }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         textField.keyboardType = .decimalPad
-        //UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -215)})
-        layoutBottom.constant = 215
-        
         return true
     }
     
@@ -114,10 +114,6 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         }
     }
     
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        brain(textField)
-//    }
-    
     func appLogic(count: Double, currency:Double, scale:Int)->Double{
         return count*currency*Double(scale)
     }
@@ -154,8 +150,7 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     ///
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        firstTextField.becomeFirstResponder()
-        //UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -215)})
-        layoutBottom.constant = 215
+        generalView.endEditing(true)
+        layoutBottom.constant = 0
     }
 }
