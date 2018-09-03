@@ -10,19 +10,23 @@ import UIKit
 
 class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate{
     var data = dataAlgorithm()
+    var currences = [dataAlgorithm.currence]()
     var selectedRow = 0
+    var isAllCurrencesDisplayed = false
     override func viewDidLoad() {
         super.viewDidLoad()
         curPicker.delegate = self
         curPicker.dataSource = self
         firstTextField.delegate = self
         secondTextField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         data.getAllCurrences()
+        currences = data.lessCurrneces
         curPicker.reloadAllComponents()
-        secondLabel.text = data.allCurrences.first?.Cur_Name
+        secondLabel.text = data.lessCurrneces.first?.Cur_Name
         super.viewWillAppear(animated)
     }
     @IBOutlet weak var curPicker: UIPickerView!
@@ -31,26 +35,34 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     @IBOutlet weak var firstTextField: UITextField!{
         didSet{
             firstTextField.becomeFirstResponder()
-            if firstTextField != nil,secondTextField != nil {brain(firstTextField)}
+            firstTextField.clearButtonMode = .always
         }
     }
     @IBOutlet weak var secondTextField: UITextField!{
         didSet{
-            if firstTextField != nil, secondTextField != nil{
-                brain(secondTextField)
-                
-            }
+            secondTextField.clearButtonMode = .always
+            
         }
-    }
-    @IBAction func changeButton(_ sender: UIButton) {
     }
     @IBOutlet weak var layoutBottom: NSLayoutConstraint!
     @IBOutlet weak var generalView: UIView!
     
+    @IBAction func moreButtonAction(_ sender: UIButton) {
+        isAllCurrencesDisplayed = !isAllCurrencesDisplayed
+        if isAllCurrencesDisplayed {
+            currences = data.allCurrences
+            sender.setTitle("Less", for: .normal)
+        }else{
+            currences = data.lessCurrneces
+            sender.setTitle("More", for: .normal)
+        }
+        curPicker.reloadAllComponents()
+    }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        brain(textField)
         textField.keyboardType = .decimalPad
-        UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -215)})
+        //UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -215)})
+        layoutBottom.constant = 215
+        
         return true
     }
     
@@ -64,33 +76,53 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         return nil
     }
     
+    func textToDouble(text:String, textField:UITextField)->Double?{
+        if text.isEmpty{
+            return nil
+        }
+        var newString = text
+        var count = false
+        for index in newString.indices{
+            if newString[index] == ","||newString[index] == "."{
+                if !count{
+                    count = true
+                    newString = text.replacingCharacters(in: index...index, with: ".")
+                }else{
+                    newString.remove(at: index)
+                }
+            }
+        }
+        textField.text = newString
+        return Double(newString)
+    }
+    
     func brain(_ textField:UITextField){
         var firstNumber:Double?
-        if let fristDouble = firstTextField.text{
-            firstNumber = Double(fristDouble)
-        }
         var secondNumber:Double?
+        if let fristDouble = firstTextField.text{
+            firstNumber = textToDouble(text: fristDouble,textField: firstTextField)
+            
+        }
         if let secondDouble = secondTextField.text{
-            secondNumber = Double(secondDouble)
+            secondNumber = textToDouble(text: secondDouble,textField: secondTextField)
         }
         if textField == secondTextField, secondNumber != nil, data.allCurrences.count > 0{
-            firstTextField.text = String(appLogic(count: secondNumber!, currency: data.allCurrences[selectedRow].Cur_OfficialRate, scale: data.allCurrences[selectedRow].Cur_Scale))
+            firstTextField.text = String(appLogic(count: secondNumber!, currency: currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale))
         }
         if textField == firstTextField, firstNumber != nil, data.allCurrences.count > 0{
-            secondTextField.text = String(appLogic(count: firstNumber!, currency: 1/data.allCurrences[selectedRow].Cur_OfficialRate, scale: data.allCurrences[selectedRow].Cur_Scale))
+            secondTextField.text = String(appLogic(count: firstNumber!, currency: 1/currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale))
         }
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        brain(textField)
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        brain(textField)
+//    }
     
     func appLogic(count: Double, currency:Double, scale:Int)->Double{
         return count*currency*Double(scale)
     }
     
     @IBAction func editChanched(_ sender: UITextField) {
-        print(123)
         brain(sender)
     }
     
@@ -106,16 +138,24 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
    
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return data.allCurrences.count
+        return currences.count
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return data.allCurrences[row].Cur_Abbreviation
+        return currences[row].Cur_Abbreviation
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        secondLabel.text = data.allCurrences[row].Cur_Name
+        secondLabel.text = currences[row].Cur_Name
         selectedRow = row
         brain(currentTextField!)
+    }
+    
+    ///
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        firstTextField.becomeFirstResponder()
+        //UIView.animate(withDuration: 0.2, animations: {self.generalView.transform = CGAffineTransform.identity.translatedBy(x: 0, y: -215)})
+        layoutBottom.constant = 215
     }
 }

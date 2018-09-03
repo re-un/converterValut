@@ -13,6 +13,9 @@
 		E54F84862126C012002D2B3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E54F84852126C012002D2B3A /* Assets.xcassets */; };
 		E54F84892126C012002D2B3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E54F84872126C012002D2B3A /* LaunchScreen.storyboard */; };
 		E54F84942126F450002D2B3A /* dataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54F84932126F450002D2B3A /* dataSource.swift */; };
+		E571703A213D7EAC0073F2FF /* leftSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5717039213D7EAB0073F2FF /* leftSwipe.swift */; };
+		E571703C213D873D0073F2FF /* rightSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E571703B213D873D0073F2FF /* rightSwipe.swift */; };
+		E571703F213D884E0073F2FF /* CustomConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E571703E213D884E0073F2FF /* CustomConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		E54F84882126C012002D2B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E54F848A2126C012002D2B3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E54F84932126F450002D2B3A /* dataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataSource.swift; sourceTree = "<group>"; };
+		E5717039213D7EAB0073F2FF /* leftSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leftSwipe.swift; sourceTree = "<group>"; };
+		E571703B213D873D0073F2FF /* rightSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rightSwipe.swift; sourceTree = "<group>"; };
+		E571703E213D884E0073F2FF /* CustomConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +63,9 @@
 			isa = PBXGroup;
 			children = (
 				E54F84902126C0B2002D2B3A /* New Group */,
+				E571703D213D87520073F2FF /* Segue */,
 				E54F84802126C00F002D2B3A /* ViewController.swift */,
+				E571703E213D884E0073F2FF /* CustomConverter.swift */,
 				E54F84822126C00F002D2B3A /* Main.storyboard */,
 				E54F84932126F450002D2B3A /* dataSource.swift */,
 				E54F848A2126C012002D2B3A /* Info.plist */,
@@ -73,6 +81,15 @@
 				E54F84872126C012002D2B3A /* LaunchScreen.storyboard */,
 			);
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		E571703D213D87520073F2FF /* Segue */ = {
+			isa = PBXGroup;
+			children = (
+				E571703B213D873D0073F2FF /* rightSwipe.swift */,
+				E5717039213D7EAB0073F2FF /* leftSwipe.swift */,
+			);
+			path = Segue;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,8 +164,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E54F84812126C00F002D2B3A /* ViewController.swift in Sources */,
+				E571703A213D7EAC0073F2FF /* leftSwipe.swift in Sources */,
 				E54F84942126F450002D2B3A /* dataSource.swift in Sources */,
 				E54F847F2126C00F002D2B3A /* AppDelegate.swift in Sources */,
+				E571703C213D873D0073F2FF /* rightSwipe.swift in Sources */,
+				E571703F213D884E0073F2FF /* CustomConverter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +313,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UQFYVQKMZ8;
+				DEVELOPMENT_TEAM = Z3BNN7G982;
 				INFOPLIST_FILE = converterValut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bzd.converterValut;
+				PRODUCT_BUNDLE_IDENTIFIER = wrk.converterValut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -312,14 +332,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UQFYVQKMZ8;
+				DEVELOPMENT_TEAM = Z3BNN7G982;
 				INFOPLIST_FILE = converterValut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = bzd.converterValut;
+				PRODUCT_BUNDLE_IDENTIFIER = wrk.converterValut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
