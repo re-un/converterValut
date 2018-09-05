@@ -10,16 +10,79 @@ import UIKit
 
 class CustomConverter: UIViewController {
 
+    @IBOutlet weak var firstTextField: UITextField!
+    @IBOutlet weak var currenceTextField: UITextField!
+    @IBOutlet weak var secondTextField: UITextField!
+    @IBOutlet weak var bottom: NSLayoutConstraint!
+    
+    @IBAction func firstChanched(_ sender: UITextField) {
+        brain(sender)
+    }
+    @IBAction func currenceChanched(_ sender: UITextField) {
+        brain(sender)
+    }
+    @IBAction func secondChanched(_ sender: UITextField) {
+        brain(sender)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        currenceTextField.becomeFirstResponder()
+        
+        UIView.animate(withDuration: 0.2, animations: {self.bottom.constant = self.keyboardHeight})
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    var keyboardHeight:CGFloat = 0
+    var customCurrence = 0.0
+    var conv = converter()
+    
+    func brain(_ textField:UITextField){
+        var firstNumber:Double?
+        var secondNumber:Double?
+        var currence:Double?
+        if let fristDouble = firstTextField.text{
+            firstNumber = conv.textToDouble(text: fristDouble,textField: firstTextField)
+            
+        }
+        if let secondDouble = secondTextField.text{
+            secondNumber = conv.textToDouble(text: secondDouble,textField: secondTextField)
+        }
+        if let currenceText = currenceTextField.text{
+            currence = conv.textToDouble(text: currenceText, textField: currenceTextField)
+        }
+        
+        if textField == firstTextField, firstNumber != nil, currence != nil{
+            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1))
+        }
+        if textField == secondTextField, secondNumber != nil, currence != nil{
+            firstTextField.text = String(conv.appLogic(count: secondNumber!, currency: 1/currence!, scale: 1))
+        }
+        if textField == currenceTextField, firstNumber != nil, currence != nil{
+            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1))
+        }
+    }
+    
+    
+    @objc func getKeyboardHeight(notification:Notification){
+        if let keyboardFrame: NSValue =
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height + 20
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
     }
-
 }
+
+

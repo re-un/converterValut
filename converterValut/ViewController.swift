@@ -12,6 +12,9 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     var currences = [dataAlgorithm.currence]()
     var selectedRow = 0
     var isAllCurrencesDisplayed = false
+    var keyboardHeight:CGFloat = 0
+    var conv = converter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         curPicker.delegate = self
@@ -19,20 +22,21 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         firstTextField.delegate = self
         secondTextField.delegate = self
     }
-    
+    //.kajfsgh.akdfhg.kajsdbhfhagsdv,fnasdlfjk;asfs
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         currences = data.lessCurrneces
         curPicker.reloadAllComponents()
         secondLabel.text = data.lessCurrneces.first?.Cur_Name
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         firstTextField.becomeFirstResponder()
-        UIView.animate(withDuration: 0.2, animations: {self.layoutBottom.constant = 235})
+        UIView.animate(withDuration: 0.2, animations: {self.layoutBottom.constant = self.keyboardHeight})
     }
+    
     @IBOutlet weak var curPicker: UIPickerView!
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
@@ -61,6 +65,14 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         curPicker.reloadAllComponents()
     }
     
+    @objc func getKeyboardHeight(notification:Notification){
+        if let keyboardFrame: NSValue =
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height + 20
+        }
+    }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         textField.keyboardType = .decimalPad
         return true
@@ -76,56 +88,39 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
         return nil
     }
     
-    func textToDouble(text:String, textField:UITextField)->Double?{
-        if text.isEmpty{
-            return nil
-        }
-        var newString = text
-        var count = false
-        for index in newString.indices{
-            if newString[index] == ","||newString[index] == "."{
-                if !count{
-                    count = true
-                    newString = text.replacingCharacters(in: index...index, with: ".")
-                }else{
-                    newString.remove(at: index)
-                }
-            }
-        }
-        textField.text = newString
-        return Double(newString)
-    }
-    
     func brain(_ textField:UITextField){
         var firstNumber:Double?
         var secondNumber:Double?
         if let fristDouble = firstTextField.text{
-            firstNumber = textToDouble(text: fristDouble,textField: firstTextField)
+            firstNumber = conv.textToDouble(text: fristDouble,textField: firstTextField)
             
         }
         if let secondDouble = secondTextField.text{
-            secondNumber = textToDouble(text: secondDouble,textField: secondTextField)
+            secondNumber = conv.textToDouble(text: secondDouble,textField: secondTextField)
         }
         if textField == secondTextField, secondNumber != nil, data.allCurrences.count > 0{
-            firstTextField.text = String(appLogic(count: secondNumber!, currency: currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale))
+            firstTextField.text = String(conv.appLogic(count: secondNumber!, currency: currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale))
         }
         if textField == firstTextField, firstNumber != nil, data.allCurrences.count > 0{
-            secondTextField.text = String(appLogic(count: firstNumber!, currency: 1/currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale))
+            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: 1/currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale))
         }
-    }
-    
-    func appLogic(count: Double, currency:Double, scale:Int)->Double{
-        return count*currency*Double(scale)
+        if firstNumber == nil   {
+            secondNumber = 0
+        }
+        if secondNumber == nil{
+            firstNumber = 0
+        }
     }
     
     @IBAction func editChanched(_ sender: UITextField) {
         brain(sender)
+        print("firstedit")
     }
     
     @IBAction func secondEditChanched(_ sender: UITextField) {
         brain(sender)
+        print("secondedit")
     }
-    
     
     //////
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -150,7 +145,6 @@ class ViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSour
     ///
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        generalView.endEditing(true)
-        layoutBottom.constant = 0
+       
     }
 }

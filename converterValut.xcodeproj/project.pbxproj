@@ -16,6 +16,7 @@
 		E571703A213D7EAC0073F2FF /* leftSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5717039213D7EAB0073F2FF /* leftSwipe.swift */; };
 		E571703C213D873D0073F2FF /* rightSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E571703B213D873D0073F2FF /* rightSwipe.swift */; };
 		E571703F213D884E0073F2FF /* CustomConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E571703E213D884E0073F2FF /* CustomConverter.swift */; };
+		E5717041213FEC730073F2FF /* convereterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5717040213FEC730073F2FF /* convereterModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		E5717039213D7EAB0073F2FF /* leftSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leftSwipe.swift; sourceTree = "<group>"; };
 		E571703B213D873D0073F2FF /* rightSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rightSwipe.swift; sourceTree = "<group>"; };
 		E571703E213D884E0073F2FF /* CustomConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomConverter.swift; sourceTree = "<group>"; };
+		E5717040213FEC730073F2FF /* convereterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = convereterModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				E571703D213D87520073F2FF /* Segue */,
 				E54F84802126C00F002D2B3A /* ViewController.swift */,
 				E571703E213D884E0073F2FF /* CustomConverter.swift */,
+				E5717040213FEC730073F2FF /* convereterModel.swift */,
 				E54F84822126C00F002D2B3A /* Main.storyboard */,
 				E54F84932126F450002D2B3A /* dataSource.swift */,
 				E54F848A2126C012002D2B3A /* Info.plist */,
@@ -169,6 +172,7 @@
 				E54F847F2126C00F002D2B3A /* AppDelegate.swift in Sources */,
 				E571703C213D873D0073F2FF /* rightSwipe.swift in Sources */,
 				E571703F213D884E0073F2FF /* CustomConverter.swift in Sources */,
+				E5717041213FEC730073F2FF /* convereterModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
