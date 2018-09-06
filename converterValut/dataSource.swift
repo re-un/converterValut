@@ -29,6 +29,7 @@ class dataAlgorithm {
     
     var allCurrences = [currence]()
     var lessCurrneces = [currence]()
+    var roundCount = [1,2,3,4,5,6,7,8,9]
     func getAllCurrences(){
         if let url = URL(string: callForAllCurrences){
             if let data = try? Data(contentsOf: url){
@@ -43,3 +44,9 @@ class dataAlgorithm {
     }
 }
 
+extension Double {
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}

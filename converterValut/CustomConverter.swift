@@ -61,13 +61,13 @@ class CustomConverter: UIViewController {
         }
         
         if textField == firstTextField, firstNumber != nil, currence != nil{
-            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1))
+            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1, round: nil))
         }
         if textField == secondTextField, secondNumber != nil, currence != nil{
-            firstTextField.text = String(conv.appLogic(count: secondNumber!, currency: 1/currence!, scale: 1))
+            firstTextField.text = String(conv.appLogic(count: secondNumber!, currency: 1/currence!, scale: 1, round: nil))
         }
         if textField == currenceTextField, firstNumber != nil, currence != nil{
-            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1))
+            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1, round: nil))
         }
     }
     

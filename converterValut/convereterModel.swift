@@ -31,7 +31,7 @@ class converter{
         return Double(newString)
     }
     
-    func appLogic(count: Double, currency:Double, scale:Int)->Double{
-        return count*currency*Double(scale)
+    func appLogic(count: Double, currency:Double, scale:Int, round:Int?)->Double{
+        return round != nil ? (count*currency*Double(scale)).rounded(toPlaces: round!): count*currency*Double(scale)
     }
 }
