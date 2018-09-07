@@ -12,7 +12,7 @@ class ViewController: UIViewController{
     var currences = [dataAlgorithm.currence]()
     var selectedRow = 0
     var roundNumber = 2
-    var firstTextFieldNumber = 0.0
+    var firstTextFieldNumber = 0.0 
     var secondTextFieldNumber = 0.0
     var isAllCurrencesDisplayed = false
     var keyboardHeight:CGFloat = 0
@@ -45,8 +45,8 @@ class ViewController: UIViewController{
         secondLabel.text = data.lessCurrneces.first?.Cur_Name
         curPicker.selectRow(1, inComponent: 1, animated: true)
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        let dateString = data.allCurrences.first!.Date
-        updateDate = data.stringToDate(dateString: dateString)
+        //let dateString = data.allCurrences.first!.Date
+        updateDate = (data.allCurrences.first?.Date)!
         firstTextField.text = data.currentNacBankValues[0]
         secondTextField.text = data.currentNacBankValues[1]
     }

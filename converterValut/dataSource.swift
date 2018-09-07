@@ -13,11 +13,12 @@ class dataAlgorithm {
     
     struct currence: Codable{
         var Cur_ID:Int
-        var Date:String
+        var Date:Date
         var Cur_Abbreviation:String
         var Cur_Scale:Int
         var Cur_Name:String
         var Cur_OfficialRate:Double
+        
         static func <(left:currence, right:currence)->Bool{
             return left.Cur_Abbreviation < right.Cur_Abbreviation
         }
@@ -33,6 +34,8 @@ class dataAlgorithm {
     
     var currentNacBankValues = Array<String?>(repeating: nil, count: 2)
     var currentCustomConverter = Array<String?>(repeating: nil, count: 3)
+    
+    var urlForSave:URL?
     //Date    String    "2018-09-07T00:00:00"
     
     func stringToDate(dateString:String)->Date{
@@ -49,17 +52,44 @@ class dataAlgorithm {
         return newDate
     }
     
+    let decoder = JSONDecoder()
+    let formater = DateFormatter()
+    
     func getAllCurrences(){
         if let url = URL(string: callForAllCurrences){
             if let data = try? Data(contentsOf: url){
-                if let currnces = try? JSONDecoder().decode([currence].self, from: data){
+                try? data.write(to: urlForSave!)
+                if let currnces = try? decoder.decode([currence].self, from: data){
                     self.allCurrences = currnces
-                    lessCurrneces = allCurrences.filter{$0.Cur_Abbreviation=="UAH"||$0.Cur_Abbreviation=="USD"||$0.Cur_Abbreviation=="EUR"||$0.Cur_Abbreviation=="RUB"}
-                    lessCurrneces.swapAt(0, 3)
-                    allCurrences.sort(by: <)
                 }
             }
+            setCurrences(&lessCurrneces, &allCurrences)
         }
+    }
+    
+    func setCurrences(_ lessCur: inout [currence], _ allCur: inout [currence]){
+        lessCur = allCur.filter{$0.Cur_Abbreviation=="UAH"||$0.Cur_Abbreviation=="USD"||$0.Cur_Abbreviation=="EUR"||$0.Cur_Abbreviation=="RUB"}
+        lessCur.swapAt(0, 3)
+        allCur.sort(by: <)
+    }
+    
+    func checkIfNeedUpdate()->Bool{
+        formater.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
+        decoder.dateDecodingStrategy = .formatted(formater)
+        
+        urlForSave = try? FileManager.default.url(for: FileManager.SearchPathDirectory.applicationSupportDirectory , in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("currences", isDirectory: false)
+        if let JSONData = try? Data(contentsOf: urlForSave!){
+            if let currnces = try? decoder.decode([currence].self, from: JSONData){
+                self.allCurrences = currnces
+                print("get from filesystem")
+            }
+        }
+        if allCurrences.count == 0{
+            return true
+        }
+        setCurrences(&lessCurrneces, &allCurrences)
+        let updateDate = allCurrences[0].Date
+        return Calendar.current.compare(updateDate, to: Date(), toGranularity: .day) != .orderedSame
     }
 }
 
