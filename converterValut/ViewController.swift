@@ -12,8 +12,24 @@ class ViewController: UIViewController{
     var currences = [dataAlgorithm.currence]()
     var selectedRow = 0
     var roundNumber = 2
+    var firstTextFieldNumber = 0.0
+    var secondTextFieldNumber = 0.0
     var isAllCurrencesDisplayed = false
     var keyboardHeight:CGFloat = 0
+    
+    var updateDate = Date(){
+        didSet{
+            if Calendar.current.compare(updateDate, to: today, toGranularity: .day) == .orderedSame{
+                updateLabel.text = "today"
+            }else if Calendar.current.compare(updateDate, to: yesterday, toGranularity: .day) == .orderedSame{
+                updateLabel.text = "yesterday"
+            }else {
+                updateLabel.text = data.dateToString(date: updateDate)
+            }
+        }
+    }
+    var today = Date()
+    var yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
     var conv = converter()
     
     override func viewDidLoad() {
@@ -29,6 +45,10 @@ class ViewController: UIViewController{
         secondLabel.text = data.lessCurrneces.first?.Cur_Name
         curPicker.selectRow(1, inComponent: 1, animated: true)
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        let dateString = data.allCurrences.first!.Date
+        updateDate = data.stringToDate(dateString: dateString)
+        firstTextField.text = data.currentNacBankValues[0]
+        secondTextField.text = data.currentNacBankValues[1]
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,19 +61,10 @@ class ViewController: UIViewController{
     @IBOutlet weak var curPicker: UIPickerView!
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
-    @IBOutlet weak var firstTextField: UITextField!{
-        didSet{
-            firstTextField.clearButtonMode = .always
-        }
-    }
-    @IBOutlet weak var secondTextField: UITextField!{
-        didSet{
-            secondTextField.clearButtonMode = .always
-        }
-    }
+    @IBOutlet weak var firstTextField: UITextField!
+    @IBOutlet weak var secondTextField: UITextField!
     @IBOutlet weak var layoutBottom: NSLayoutConstraint!
     @IBOutlet weak var generalView: UIView!
-    
     @IBAction func moreButtonAction(_ sender: UIButton) {
         isAllCurrencesDisplayed = !isAllCurrencesDisplayed
         if isAllCurrencesDisplayed {
@@ -106,16 +117,16 @@ class ViewController: UIViewController{
         if secondNumber == nil{
             firstNumber = 0
         }
+        data.currentNacBankValues[0] = firstTextField.text
+        data.currentNacBankValues[1] = secondTextField.text
     }
     
     @IBAction func editChanched(_ sender: UITextField) {
         brain(sender)
-        print("firstedit")
     }
     
     @IBAction func secondEditChanched(_ sender: UITextField) {
         brain(sender)
-        print("secondedit")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

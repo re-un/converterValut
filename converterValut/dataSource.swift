@@ -10,7 +10,7 @@ import Foundation
 
 class dataAlgorithm {
     private let callForAllCurrences = "http://www.nbrb.by/API/ExRates/Rates?Periodicity=0"
-   
+    
     struct currence: Codable{
         var Cur_ID:Int
         var Date:String
@@ -30,6 +30,25 @@ class dataAlgorithm {
     var allCurrences = [currence]()
     var lessCurrneces = [currence]()
     var roundCount = [1,2,3,4,5,6,7,8,9]
+    
+    var currentNacBankValues = Array<String?>(repeating: nil, count: 2)
+    var currentCustomConverter = Array<String?>(repeating: nil, count: 3)
+    //Date    String    "2018-09-07T00:00:00"
+    
+    func stringToDate(dateString:String)->Date{
+        //let isoDate = "2016-04-14T10:44:00+0000"
+        let newString = dateString + "+0000"
+        let dateFormatter = ISO8601DateFormatter()
+        let date = dateFormatter.date(from:newString)!
+        return date
+    }
+    func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let newDate: String = dateFormatter.string(from: date)
+        return newDate
+    }
+    
     func getAllCurrences(){
         if let url = URL(string: callForAllCurrences){
             if let data = try? Data(contentsOf: url){
