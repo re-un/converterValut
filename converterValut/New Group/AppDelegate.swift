@@ -17,9 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        data.settings()
         if data.checkIfNeedUpdate(){
-            data.getAllCurrences()
+            data.getAllCurrencesFromBank()
         }
+        data.getDataForGraph(curAbbreviation: "USD")
         return true
     }
 

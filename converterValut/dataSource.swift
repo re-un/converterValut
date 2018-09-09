@@ -11,6 +11,13 @@ import Foundation
 class dataAlgorithm {
     private let callForAllCurrences = "http://www.nbrb.by/API/ExRates/Rates?Periodicity=0"
     
+    func getUrlForGraph(from id:Int, days:Int)->URL?{
+        let startDate = dateToString(date: Calendar.current.date(byAdding: .day, value: -days, to: Date())!, dateFormat: "yyyy-M-d")
+        let endDate = dateToString(date: Date(), dateFormat: "yyyy-M-d")
+        let string = "http://www.nbrb.by/API/ExRates/Rates/Dynamics/\(id)?startDate=\(startDate)&endDate=\(endDate)"
+        return URL(string: string)
+    }
+    
     struct currence: Codable{
         var Cur_ID:Int
         var Date:Date
@@ -24,12 +31,19 @@ class dataAlgorithm {
         }
     }
     
+    struct grahpCurrence:Codable {
+        var Cur_ID:Int
+        var Date:Date
+        var Cur_OfficialRate:Double
+    }
+    
     private struct allcur:Codable {
         var allCurrences:[currence]
     }
     
     var allCurrences = [currence]()
     var lessCurrneces = [currence]()
+    var dataForGraphic = [grahpCurrence]()
     var roundCount = [1,2,3,4,5,6,7,8,9]
     
     var currentNacBankValues = Array<String?>(repeating: nil, count: 2)
@@ -39,15 +53,15 @@ class dataAlgorithm {
     //Date    String    "2018-09-07T00:00:00"
     
     func stringToDate(dateString:String)->Date{
-        //let isoDate = "2016-04-14T10:44:00+0000"
+        // isoDate  "2016-04-14T10:44:00+0000"
         let newString = dateString + "+0000"
         let dateFormatter = ISO8601DateFormatter()
         let date = dateFormatter.date(from:newString)!
         return date
     }
-    func dateToString(date: Date) -> String {
+    func dateToString(date: Date, dateFormat:String) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
+        dateFormatter.dateFormat = dateFormat
         let newDate: String = dateFormatter.string(from: date)
         return newDate
     }
@@ -55,7 +69,7 @@ class dataAlgorithm {
     let decoder = JSONDecoder()
     let formater = DateFormatter()
     
-    func getAllCurrences(){
+    func getAllCurrencesFromBank(){
         if let url = URL(string: callForAllCurrences){
             if let data = try? Data(contentsOf: url){
                 try? data.write(to: urlForSave!)
@@ -67,21 +81,33 @@ class dataAlgorithm {
         }
     }
     
+    func getDataForGraph(curAbbreviation:String){
+        if let url = getUrlForGraph(from: allCurrences.first(where: {$0.Cur_Abbreviation == curAbbreviation})!.Cur_ID, days: 364){
+            print(url)
+            if let data = try? Data(contentsOf: url){
+                if let currnsForGaph = try? decoder.decode([grahpCurrence].self, from: data){
+                    self.dataForGraphic = currnsForGaph
+                }
+            }
+        }
+    }
+    
     func setCurrences(_ lessCur: inout [currence], _ allCur: inout [currence]){
         lessCur = allCur.filter{$0.Cur_Abbreviation=="UAH"||$0.Cur_Abbreviation=="USD"||$0.Cur_Abbreviation=="EUR"||$0.Cur_Abbreviation=="RUB"}
         lessCur.swapAt(0, 3)
         allCur.sort(by: <)
     }
     
-    func checkIfNeedUpdate()->Bool{
+    func settings(){
         formater.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
         decoder.dateDecodingStrategy = .formatted(formater)
-        
         urlForSave = try? FileManager.default.url(for: FileManager.SearchPathDirectory.applicationSupportDirectory , in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("currences", isDirectory: false)
+    }
+    
+    func checkIfNeedUpdate()->Bool{
         if let JSONData = try? Data(contentsOf: urlForSave!){
             if let currnces = try? decoder.decode([currence].self, from: JSONData){
                 self.allCurrences = currnces
-                print("get from filesystem")
             }
         }
         if allCurrences.count == 0{

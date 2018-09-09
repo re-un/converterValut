@@ -24,7 +24,7 @@ class ViewController: UIViewController{
             }else if Calendar.current.compare(updateDate, to: yesterday, toGranularity: .day) == .orderedSame{
                 updateLabel.text = "yesterday"
             }else {
-                updateLabel.text = data.dateToString(date: updateDate)
+                updateLabel.text = data.dateToString(date: updateDate, dateFormat: "dd.MM.yyyy")
             }
         }
     }
@@ -36,6 +36,8 @@ class ViewController: UIViewController{
         super.viewDidLoad()
         curPicker.delegate = self
         curPicker.dataSource = self
+        firstTextField.delegate = self
+        secondTextField.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +47,6 @@ class ViewController: UIViewController{
         secondLabel.text = data.lessCurrneces.first?.Cur_Name
         curPicker.selectRow(1, inComponent: 1, animated: true)
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        //let dateString = data.allCurrences.first!.Date
         updateDate = (data.allCurrences.first?.Date)!
         firstTextField.text = data.currentNacBankValues[0]
         secondTextField.text = data.currentNacBankValues[1]
@@ -111,11 +112,11 @@ class ViewController: UIViewController{
         if textField == firstTextField, firstNumber != nil, data.allCurrences.count > 0{
             secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: 1/currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale, round: roundNumber))
         }
-        if firstNumber == nil   {
-            secondNumber = 0
+        if textField == firstTextField, firstNumber == nil   {
+            secondTextField.text = ""
         }
-        if secondNumber == nil{
-            firstNumber = 0
+        if textField == secondTextField, secondNumber == nil{
+            firstTextField.text = ""
         }
         data.currentNacBankValues[0] = firstTextField.text
         data.currentNacBankValues[1] = secondTextField.text
@@ -123,6 +124,7 @@ class ViewController: UIViewController{
     
     @IBAction func editChanched(_ sender: UITextField) {
         brain(sender)
+        print("edit")
     }
     
     @IBAction func secondEditChanched(_ sender: UITextField) {
@@ -156,5 +158,19 @@ extension ViewController: UIPickerViewDelegate,UIPickerViewDataSource{
             roundNumber = data.roundCount[row]
         }
         brain(currentTextField!)
+    }
+}
+
+extension ViewController:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        let char = string.cString(using: .utf8)
+//        let isBackSpace = strcmp(char, "\\b")
+//        if isBackSpace == -92{
+//            print("delete")
+//
+//        }
+      //  print(123)
+       // brain(textField)
+        return true
     }
 }
