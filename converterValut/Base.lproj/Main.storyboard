@@ -296,6 +296,7 @@
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="uad-I9-R0X" appends="YES" id="4ud-hV-ncL"/>
+                                    <outletCollection property="gestureRecognizers" destination="8at-Wa-esw" appends="YES" id="AEO-kL-Jrs"/>
                                 </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="curAbbreviation" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Oh-m8-fU4">
@@ -391,7 +392,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U3S-R1-va3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="uad-I9-R0X"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="uad-I9-R0X">
+                    <connections>
+                        <action selector="tapOnScreen:" destination="9qo-lq-j14" id="vAv-8c-gz9"/>
+                    </connections>
+                </panGestureRecognizer>
+                <tapGestureRecognizer id="8at-Wa-esw">
+                    <connections>
+                        <action selector="tapOnGraph:" destination="9qo-lq-j14" id="yGG-eY-dyw"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="478" y="891"/>
         </scene>
