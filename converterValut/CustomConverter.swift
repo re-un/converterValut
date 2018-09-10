@@ -51,35 +51,43 @@ class CustomConverter: UIViewController {
     
     var keyboardHeight:CGFloat = 0
     var customCurrence = 0.0
-    var conv = converter()
     
     func brain(_ textField:UITextField){
         var firstNumber:Double?
         var secondNumber:Double?
         var currence:Double?
-        if let fristDouble = firstTextField.text{
-            firstNumber = conv.textToDouble(text: fristDouble,textField: firstTextField)
-            
-        }
-        if let secondDouble = secondTextField.text{
-            secondNumber = conv.textToDouble(text: secondDouble,textField: secondTextField)
-        }
-        if let currenceText = currenceTextField.text{
-            currence = conv.textToDouble(text: currenceText, textField: currenceTextField)
-        }
+        firstNumber = converter.textToDouble(textField: firstTextField);
+        secondNumber = converter.textToDouble(textField: secondTextField);
+        currence = converter.textToDouble(textField: currenceTextField);
         
-        if textField == firstTextField, firstNumber != nil, currence != nil{
-            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1, round: nil))
+        switch(textField){
+        case firstTextField:
+            if firstNumber == nil{
+                secondTextField.text = ""
+                break
+            }
+            if currence == nil {
+                break
+            }
+            secondTextField.text = String(converter.appLogic(count: firstNumber!, currency: currence!, scale: 1, round: nil))
+        case secondTextField:
+            if secondNumber == nil{
+                firstTextField.text = ""
+                break;
+            }
+            if currence == nil {
+                break
+            }
+            firstTextField.text = String(converter.appLogic(count: secondNumber!, currency: 1/currence!, scale: 1, round: nil))
+        case currenceTextField:
+            if firstNumber == nil || currence == nil{
+                break
+            }
+            secondTextField.text = String(converter.appLogic(count: firstNumber!, currency: currence!, scale: 1, round: nil))
+        default:
+            break
         }
-        if textField == secondTextField, secondNumber != nil, currence != nil{
-            firstTextField.text = String(conv.appLogic(count: secondNumber!, currency: 1/currence!, scale: 1, round: nil))
-        }
-        if textField == currenceTextField, firstNumber != nil, currence != nil{
-            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: currence!, scale: 1, round: nil))
-        }
-        data.currentCustomConverter[0] = firstTextField.text
-        data.currentCustomConverter[1] = currenceTextField.text
-        data.currentCustomConverter[2] = secondTextField.text
+        data.currentCustomConverter = [firstTextField.text, currenceTextField.text, secondTextField.text];
     }
     
     
@@ -89,10 +97,6 @@ class CustomConverter: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height + 20
         }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
     }
 }
 

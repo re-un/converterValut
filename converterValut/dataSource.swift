@@ -57,7 +57,6 @@ class dataAlgorithm {
     var currentNacBankValues = Array<String?>(repeating: nil, count: 2)
     var currentCustomConverter = Array<String?>(repeating: nil, count: 3)
     
-    //var current
     
     var urlForSave:URL?
     //Date    String    "2018-09-07T00:00:00"
@@ -97,7 +96,6 @@ class dataAlgorithm {
             print(url)
             if let data = try? Data(contentsOf: url){
                 if let currnsForGaph = try? decoder.decode([graphCurrence].self, from: data){
-                    //self.dataForGraphic = currnsForGaph
                     return currnsForGaph
                 }
             }

@@ -32,15 +32,11 @@ class ViewController: UIViewController{
     
     var today = Date()
     var yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-    var conv = converter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         curPicker.delegate = self
         curPicker.dataSource = self
-        firstTextField.delegate = self
-        secondTextField.delegate = self
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -54,12 +50,12 @@ class ViewController: UIViewController{
         firstTextField.text = data.currentNacBankValues[0]
         secondTextField.text = data.currentNacBankValues[1]
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        layoutBottom.constant = keyboardHeight
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         firstTextField.becomeFirstResponder()
-        UIView.animate(withDuration: 0.2, animations: {self.layoutBottom.constant = self.keyboardHeight})
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,43 +104,38 @@ class ViewController: UIViewController{
     func brain(_ textField:UITextField){
         var firstNumber:Double?
         var secondNumber:Double?
-        if let fristDouble = firstTextField.text{
-            firstNumber = conv.textToDouble(text: fristDouble,textField: firstTextField)
-            
+        firstNumber = converter.textToDouble(textField: firstTextField)
+        secondNumber = converter.textToDouble(textField: secondTextField)
+        switch (textField) {
+        case secondTextField:
+            if (secondNumber == nil || data.allCurrences.count == 0) {
+                firstTextField.text = ""
+                break
+            }
+            firstTextField.text = String((1/converter.appLogic(count: 1/secondNumber!, currency: currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale, round: nil)).rounded(toPlaces: roundNumber))
+        case firstTextField:
+            if (firstNumber == nil || data.allCurrences.count == 0) {
+                secondTextField.text = ""
+                break
+            }
+            secondTextField.text = String(converter.appLogic(count: firstNumber!, currency: currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale, round: roundNumber))
+        default:
+            break
         }
-        if let secondDouble = secondTextField.text{
-            secondNumber = conv.textToDouble(text: secondDouble,textField: secondTextField)
-        }
-        if textField == secondTextField, secondNumber != nil, data.allCurrences.count > 0{
-            firstTextField.text = String(conv.appLogic(count: secondNumber!, currency: currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale, round: roundNumber))
-        }
-        if textField == firstTextField, firstNumber != nil, data.allCurrences.count > 0{
-            secondTextField.text = String(conv.appLogic(count: firstNumber!, currency: 1/currences[selectedRow].Cur_OfficialRate, scale: currences[selectedRow].Cur_Scale, round: roundNumber))
-        }
-        if textField == firstTextField, firstNumber == nil   {
-            secondTextField.text = ""
-        }
-        if textField == secondTextField, secondNumber == nil{
-            firstTextField.text = ""
-        }
-        data.currentNacBankValues[0] = firstTextField.text
-        data.currentNacBankValues[1] = secondTextField.text
+        data.currentNacBankValues = [firstTextField.text, secondTextField.text]
     }
     
-    @IBAction func editChanched(_ sender: UITextField) {
+    @IBAction func firstEdit(_ sender: UITextField) {
         brain(sender)
-        print("edit")
     }
     
-    @IBAction func secondEditChanched(_ sender: UITextField) {
+    @IBAction func secondEdit(_ sender: UITextField) {
         brain(sender)
     }
-    //
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let graphVC = segue.destination as? GraphicViewController
         graphVC?.curAbbreviation = currences[selectedRow].Cur_Abbreviation
-        
     }
 }
 
@@ -170,13 +161,5 @@ extension ViewController: UIPickerViewDelegate,UIPickerViewDataSource{
             roundNumber = data.roundCount[row]
         }
         brain(currentTextField!)
-    }
-}
-
-extension ViewController:UITextFieldDelegate{
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        
-        return true
     }
 }

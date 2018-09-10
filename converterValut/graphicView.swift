@@ -22,17 +22,8 @@ class graphicView: UIView {
     
     override func draw(_ rect: CGRect){
         if graphicData.count > 0{
-            var maxValue = graphicData[0]
-            var minValue = maxValue
-            for index in graphicData.indices{
-                if maxValue < graphicData[index]{
-                    maxValue = graphicData[index]
-                }
-                if minValue > graphicData[index]{
-                    minValue = graphicData[index]
-                }
-            }
-        
+            let maxValue = graphicData.max()!
+            let minValue = graphicData.min()!
             let graphicDelta = maxValue - minValue
         
             //(value - minvalue)/graphicdelta

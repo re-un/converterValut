@@ -11,10 +11,11 @@ import UIKit
 
 class converter{
     var keyboardHeight:CGFloat = 0
-    func textToDouble(text:String, textField:UITextField)->Double?{
-        if text.isEmpty{
+    static func textToDouble(textField:UITextField)->Double?{
+        if textField.text == nil {
             return nil
         }
+        let text = textField.text!
         var newString = text
         var count = false
         for index in newString.indices{
@@ -31,7 +32,7 @@ class converter{
         return Double(newString)
     }
     
-    func appLogic(count: Double, currency:Double, scale:Int, round:Int?)->Double{
-        return round != nil ? (count*currency*Double(scale)).rounded(toPlaces: round!): count*currency*Double(scale)
+    static func appLogic(count: Double, currency:Double, scale:Int, round:Int?)->Double{
+        return round != nil ? (count/currency*Double(scale)).rounded(toPlaces: round!): count/currency*Double(scale)
     }
 }

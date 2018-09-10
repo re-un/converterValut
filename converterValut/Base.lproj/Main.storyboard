@@ -24,7 +24,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                 <connections>
-                                    <action selector="editChanched:" destination="BYZ-38-t0r" eventType="editingChanged" id="5CL-ba-Vao"/>
+                                    <action selector="firstEdit:" destination="BYZ-38-t0r" eventType="editingChanged" id="A3E-Ui-UOK"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Белорусский рубль" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9d-4q-tFG">
@@ -45,7 +45,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                 <connections>
-                                    <action selector="secondEditChanched:" destination="BYZ-38-t0r" eventType="editingChanged" id="zJ0-6L-etZ"/>
+                                    <action selector="secondEdit:" destination="BYZ-38-t0r" eventType="editingChanged" id="AbW-87-HmM"/>
                                 </connections>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="168" translatesAutoresizingMaskIntoConstraints="NO" id="ahG-ga-qkh">
