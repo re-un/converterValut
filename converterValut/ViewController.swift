@@ -9,6 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController{
+    
     var currences = [dataAlgorithm.currence]()
     var selectedRow = 0
     var roundNumber = 2
@@ -28,6 +29,7 @@ class ViewController: UIViewController{
             }
         }
     }
+    
     var today = Date()
     var yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
     var conv = converter()
@@ -38,6 +40,7 @@ class ViewController: UIViewController{
         curPicker.dataSource = self
         firstTextField.delegate = self
         secondTextField.delegate = self
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,12 +53,18 @@ class ViewController: UIViewController{
         updateDate = (data.allCurrences.first?.Date)!
         firstTextField.text = data.currentNacBankValues[0]
         secondTextField.text = data.currentNacBankValues[1]
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         firstTextField.becomeFirstResponder()
         UIView.animate(withDuration: 0.2, animations: {self.layoutBottom.constant = self.keyboardHeight})
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        AppUtility.lockOrientation(.all)
     }
     
     @IBOutlet weak var updateLabel: UILabel!
@@ -130,9 +139,12 @@ class ViewController: UIViewController{
     @IBAction func secondEditChanched(_ sender: UITextField) {
         brain(sender)
     }
+    //
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       
+        let graphVC = segue.destination as? GraphicViewController
+        graphVC?.curAbbreviation = currences[selectedRow].Cur_Abbreviation
+        
     }
 }
 
@@ -163,14 +175,8 @@ extension ViewController: UIPickerViewDelegate,UIPickerViewDataSource{
 
 extension ViewController:UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let char = string.cString(using: .utf8)
-//        let isBackSpace = strcmp(char, "\\b")
-//        if isBackSpace == -92{
-//            print("delete")
-//
-//        }
-      //  print(123)
-       // brain(textField)
+        
+        
         return true
     }
 }

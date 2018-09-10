@@ -41,6 +41,12 @@ class CustomConverter: UIViewController {
         currenceTextField.text = data.currentCustomConverter[1]
         secondTextField.text = data.currentCustomConverter[2]
         NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+          AppUtility.lockOrientation(.all)
     }
     
     var keyboardHeight:CGFloat = 0

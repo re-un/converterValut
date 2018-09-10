@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E544180C2145A4540074C62C /* graphicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E544180B2145A4540074C62C /* graphicView.swift */; };
+		E544180E2145B3A20074C62C /* GraphicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E544180D2145B3A20074C62C /* GraphicViewController.swift */; };
 		E54F847F2126C00F002D2B3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54F847E2126C00F002D2B3A /* AppDelegate.swift */; };
 		E54F84812126C00F002D2B3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54F84802126C00F002D2B3A /* ViewController.swift */; };
 		E54F84842126C00F002D2B3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E54F84822126C00F002D2B3A /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E544180B2145A4540074C62C /* graphicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graphicView.swift; sourceTree = "<group>"; };
+		E544180D2145B3A20074C62C /* GraphicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicViewController.swift; sourceTree = "<group>"; };
 		E54F847B2126C00F002D2B3A /* converterValut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = converterValut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E54F847E2126C00F002D2B3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E54F84802126C00F002D2B3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 				E571703E213D884E0073F2FF /* CustomConverter.swift */,
 				E5717040213FEC730073F2FF /* convereterModel.swift */,
 				E54F84822126C00F002D2B3A /* Main.storyboard */,
+				E544180D2145B3A20074C62C /* GraphicViewController.swift */,
+				E544180B2145A4540074C62C /* graphicView.swift */,
 				E54F84932126F450002D2B3A /* dataSource.swift */,
 				E54F848A2126C012002D2B3A /* Info.plist */,
 			);
@@ -171,7 +177,9 @@
 				E54F84942126F450002D2B3A /* dataSource.swift in Sources */,
 				E54F847F2126C00F002D2B3A /* AppDelegate.swift in Sources */,
 				E571703C213D873D0073F2FF /* rightSwipe.swift in Sources */,
+				E544180C2145A4540074C62C /* graphicView.swift in Sources */,
 				E571703F213D884E0073F2FF /* CustomConverter.swift in Sources */,
+				E544180E2145B3A20074C62C /* GraphicViewController.swift in Sources */,
 				E5717041213FEC730073F2FF /* convereterModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

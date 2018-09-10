@@ -31,10 +31,18 @@ class dataAlgorithm {
         }
     }
     
-    struct grahpCurrence:Codable {
+    struct graphCurrence:Codable {
         var Cur_ID:Int
         var Date:Date
         var Cur_OfficialRate:Double
+        
+        static func <(left:graphCurrence, right:graphCurrence)->Bool{
+            return left.Cur_OfficialRate < right.Cur_OfficialRate
+        }
+        
+        static func >(left:graphCurrence, right:graphCurrence)->Bool{
+            return left.Cur_OfficialRate > right.Cur_OfficialRate
+        }
     }
     
     private struct allcur:Codable {
@@ -43,11 +51,13 @@ class dataAlgorithm {
     
     var allCurrences = [currence]()
     var lessCurrneces = [currence]()
-    var dataForGraphic = [grahpCurrence]()
+    var dataForGraphic = [graphCurrence]()
     var roundCount = [1,2,3,4,5,6,7,8,9]
     
     var currentNacBankValues = Array<String?>(repeating: nil, count: 2)
     var currentCustomConverter = Array<String?>(repeating: nil, count: 3)
+    
+    //var current
     
     var urlForSave:URL?
     //Date    String    "2018-09-07T00:00:00"
@@ -62,6 +72,7 @@ class dataAlgorithm {
     func dateToString(date: Date, dateFormat:String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
+        dateFormatter.locale = Locale(identifier: "en_GB")
         let newDate: String = dateFormatter.string(from: date)
         return newDate
     }
@@ -81,15 +92,17 @@ class dataAlgorithm {
         }
     }
     
-    func getDataForGraph(curAbbreviation:String){
+    func getDataForGraph(curAbbreviation:String)->[graphCurrence]{
         if let url = getUrlForGraph(from: allCurrences.first(where: {$0.Cur_Abbreviation == curAbbreviation})!.Cur_ID, days: 364){
             print(url)
             if let data = try? Data(contentsOf: url){
-                if let currnsForGaph = try? decoder.decode([grahpCurrence].self, from: data){
-                    self.dataForGraphic = currnsForGaph
+                if let currnsForGaph = try? decoder.decode([graphCurrence].self, from: data){
+                    //self.dataForGraphic = currnsForGaph
+                    return currnsForGaph
                 }
             }
         }
+        return [graphCurrence]()
     }
     
     func setCurrences(_ lessCur: inout [currence], _ allCur: inout [currence]){
