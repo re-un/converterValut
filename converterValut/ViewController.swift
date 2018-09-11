@@ -50,12 +50,13 @@ class ViewController: UIViewController{
         firstTextField.text = data.currentNacBankValues[0]
         secondTextField.text = data.currentNacBankValues[1]
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-        layoutBottom.constant = keyboardHeight
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         firstTextField.becomeFirstResponder()
+        UIView.animate(withDuration: 0.2, animations: {self.layoutBottom.constant = self.keyboardHeight}) 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
